@@ -1,0 +1,17 @@
+name: traffic-keepalive
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ping traffic monitor tick
+        run: |
+          curl -sS --retry 2 --retry-delay 5 --max-time 25 \
+            "https://changsha-traffic-monitor.app.workbuddy.host/api/tick?sharecode=LZJ2MR3LAR"
+          echo "tick done at $(date -u)"
